@@ -165,11 +165,13 @@ Again, this is standard SAP integration configuration.  As we're using the stand
 
 ![logSystem.png](./img/logSystem.png)
 
-Create a port in `WE21` under the XML-HTTP branch.  Just leave the defaults for Content Type and SOAP protocol.  If you want to play around with SOAP, please know that the XML-HTTP connector wants a certain response back from the SOAP call.
+Create a port in `WE21` under the XML-HTTP branch.  Just leave the defaults for Content Type and SOAP protocol.  If you want to play around with SOAP, please know that the XML-HTTP connector wants a certain response back from the SOAP call.  With SOAP unchecked, its more "fire and forget".
 
 ![we21](./img/we21.png)
 
 ![we20_2](./img/we20_2.png)
+
+Standard stuff here.  In a high-volume environment, I always recommend using the `Collect IDOC` option and then processing via `RESOUT00` with parallel processing.  Don't worry, API Gateway and Lambda can handle it!
 
 ![we20](./img/we20.png)
 
