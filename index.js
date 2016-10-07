@@ -1,18 +1,14 @@
 'use strict';
 
-
 var AWS = require('aws-sdk');
-var xml2js = require('xml2js');
 var s3 = new AWS.S3();
+var xml2js = require('xml2js');
 var uuid = require('node-uuid');
 
-
 AWS.config.region = 'us-east-1';
-var parseString = new xml2js.Parser({explicitArray:false}).parseString;
+var parseString = new xml2js.Parser({ explicitArray: false }).parseString;
 
 exports.handler = function (event, context, callback) {
-
-
 
     var xmlString = new Buffer(event.body, 'base64').toString();
     parseString(xmlString, function (err, result) {
@@ -21,7 +17,7 @@ exports.handler = function (event, context, callback) {
             Key: uuid.v1() + '.json',
             Body: JSON.stringify(result)
         };
-        s3.putObject(s3Params, function(err, result) {
+        s3.putObject(s3Params, function (err, result) {
             callback(err, result);
         });
     });
