@@ -1,4 +1,4 @@
-# aws-sap-idoc-tricks
+# Integrating SAP's IDOC Interface into AWS API Gateway and AWS Lambda
 
 Now, there's a saying that goes "you can't teach an old dog new tricks", and in the world of Enterprise Applicaiton Integrations, the lowly IDOC is certainly an Old Dog.  For decades, SAP's Intermediate Document or IDOC has been a mainstay of messaging integrations patterns.  It's durable, simple, widely supported and proven.  The IDOC processing framework on SAP is some of the oldest and most mature code in the entire application.
 
@@ -85,9 +85,15 @@ But this creates a problem in that AWS SQS only supports a maximum message size 
 
 However, because API Gateway uses CloudFront as its backend, this does introduce a really sneaky problem into the mix, but we talk about that in step 2.
 
+I'm going to create a path parameter for the System ID (its an SAP thing...).  This way, I can adjust my path in each SAP system so I can carry that uniqueness on to my backend processes.  This is important in cases where we have a DEV, QA and PRD system...we would not want those messages to get intermingled on accident.
+
 ![apiGW1.png](./img/apiGW1.png)
 
 ![apiGW2.png](./img/apiGW2.png)
+
+Notice here that I have two Content-Types defined, but they both contain the same mapping.  SAP's XML-HTTP connector uses straight `text/xml` as a content type and because we don't want to do customizations, we just leave it.  Every other testing tool out there, including the API Gateway testing tool wants to use `application/json` so I've created that content type as well.  If the content type doesn't match any of these, we get an error...which is what we want per the `Request Body Passthough` setting.
+
+The form is JSON that we send to the Lambda function.  We do a Bas64 encode so we don't have to worry about escape characters in the body that we received from SAP.
 
 ![apiGW3.png](./img/apiGW3.png)
 
@@ -99,17 +105,21 @@ Out of the box, SAP comes with a few SSL certificates which allow the server to 
 
 We want to use API Gateway for reasons mentioned above.  I tried and tried to get it to work, but kept getting back cryptic messages when I would test the connection (Step 3).  I could connect to other AWS API destinations just fine, but the API Gateway just didn't want to work.  I turned on all sorts of ICM logging and scrutinized those logs for any clue.  I googled relentlessly, searched both SAP Community Network (SCN) forums and AWS Forums--no luck.
 
-The answer that seemed to always crop up was that I needed to register my own SSL cert from a provider (as API Gateway does not work with self-signed certs as of this writing).  I was almost ready to admit defeat and drop a few hundred bucks on a wildcard cert when I remembered something...(if only AWS Certificate Manager was integrated with API Gateway!)
+The answer that seemed to always crop up was that I needed to register my own SSL cert from a provider (as API Gateway does not work with self-signed certs as of this writing nor does it work the AWS Certificate Manager).  I was almost ready to admit defeat and drop a few hundred bucks on a wildcard cert when I remembered something...
 
-API Gateway is different from the other AWS API endpoints in that it uses CloudFront as a backend.  I also recalled the two options we have for SSL client support--use SNI or drop $600/month for a dedicated IP at each edge location.  I wondered if SAP supported SNI.  Well, guess what...by default it does not....but it can--sort of.
+API Gateway is different from most other AWS API endpoints in that it uses CloudFront as a backend.  I also recalled the two options we have for SSL client support on CloudFront--use SNI or drop $600/month for a dedicated IP at each edge location.  I wondered if SAP supported SNI.  Well, guess what...by default it does not....but it can--sort of.
 
-Starting with Kernel 7.41+, there is a parameter, `icm/HTTPS/client_sni_enable`, which controls whether SAP (acting as an SSL client) supports SNI.  **By default, it is set to FALSE.**  We need to enable this parameter and I bet we could then connect with API Gateway without dropping a few hundred on a custom SSL cert.  See OSS note 2124480 (SMP Login Required).
+Starting with Kernel 7.41+, there is a parameter, `icm/HTTPS/client_sni_enable`, which controls whether SAP (acting as an SSL client) supports SNI.  **By default, it is set to FALSE.**  We need to enable this parameter and I bet we could then connect with API Gateway without dropping a few hundred on a custom SSL cert.  See OSS note 2124480 (SMP Login Required).  You can set this parameter in tcode `SCICM` but it will revert after a server restart.  You'll need your BASIS people to save it in the system params in `RZ10`.
 
 ![sni.png](./img/sni.png)
 
-If you only have Kernel 72X or earlier, according to OSS note 510007 section 8.a, you are SOL if you have to use SNI.  But that doesn't mean you're stuck in this integration.  You can purchase an SSL cert from one of the many issuers.  Or, you can proxy your request through something that does support SNI.  One easly way could be to create a little Node.js server that's been configured to use a self-signed cert that you load into your SAP system, and it simply takes the HTTPS stream and in turn shoves it into API Gateway or any other AWS service.  You could run this little proxy as a Docker container on the EC2 Container service or maybe on Elastic Beanstalk--but this breaks our "serverless" objective.
+If you only have Kernel 72X or earlier, according to OSS note 510007 section 8.a, you are SOL if you have to use SNI.  But that doesn't mean you're stuck in this integration.  You can purchase an SSL cert from one of the many issuers and load it up both on the API Gateway and on your SAP system.  Or, you can proxy your request through something that does support SNI.  One easly way could be to create a little Node.js server that's been configured to use a self-signed cert that you load into your SAP system, and it simply takes the HTTPS stream and in turn shoves it into API Gateway or any other AWS service directly via AWS SDK.  You could run this little proxy as a Docker container on the EC2 Container service or maybe on Elastic Beanstalk--but this breaks our "serverless" objective.
+
+We start at tcode `STRUST` and create an SSL Client Identity.
 
 ![sslclients.png](./img/sslclients.png)
+
+With our Client Identity on the tree, we now create a new PSE.  I just used the default settings.
 
 ![createTrust.png](./img/createTrust.png)
 
@@ -117,11 +127,15 @@ If you only have Kernel 72X or earlier, according to OSS note 510007 section 8.a
 
 ![createTrust3.png](./img/createTrust3.png)
 
+Now, since SAP doesn't naturally have the cert from AWS API Gateway, we have to extract that cert and upload it into our PSE.  We just enter our API URL and it will give us an error message, but that's ok because all we need is the cert.
+
 ![regCert1.png](./img/regCert1.png)
 
 ![regCert2.png](./img/regCert2.png)
 
 ![regCert3.png](./img/regCert3.png)
+
+Now we upload the extracted cert into the PSE.
 
 ![regCert4.png](./img/regCert4.png)
 
@@ -130,9 +144,9 @@ From here on out on the SAP side, its pretty standard RFC Destination and IDOC o
 
 ![createRFC1.png](./img/createRFC1.png)
 
-![createRFC1.png](./img/createRFC1.png)
+![createRFC2.png](./img/createRFC2.png)
 
-![createRFC1.png](./img/createRFC1.png)
+![createRFC3.png](./img/createRFC3.png)
 
 ![testRFC1.png](./img/testRFC1.png)
 
