@@ -54,7 +54,7 @@ But this creates a problem in that AWS SQS only supports a maximum message size 
 
 However, because API Gateway uses CloudFront as its backend, this does introduce a really sneaky problem into the mix, but we talk about that in step 2.
 
-(./img/apiGW1.png)
+![apiGW1.png](./img/apiGW1.png)
 
 ## 2. Setup SSL trust for AWS API Gateway
 
