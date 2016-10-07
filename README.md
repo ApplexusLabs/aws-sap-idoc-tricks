@@ -54,6 +54,8 @@ But this creates a problem in that AWS SQS only supports a maximum message size 
 
 However, because API Gateway uses CloudFront as its backend, this does introduce a really sneaky problem into the mix, but we talk about that in step 2.
 
+(./img/apiGW1.png)
+
 ## 2. Setup SSL trust for AWS API Gateway
 
 Out of the box, SAP comes with a few SSL certificates which allow the server to connect to a limited collection of hosts via HTTPS.  As luck would have it, the SSL certificates that SAP ships with don't include those used by the AWS API endpoints.  So, we have to create a SSL Trust and import those certs.
