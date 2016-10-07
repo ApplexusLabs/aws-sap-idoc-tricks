@@ -4,13 +4,16 @@ Now, there's a saying that goes "you can't teach an old dog new tricks", and in 
 
 What I will show you here is how to connect SAP's IDOC interface with various AWS services to perhaps get some new tricks out of the "Old Dog".
 
-I like this integration for a few reasons.   
+I like this integration for a few reasons:
+
 1. Not many companies can just ditch their existing SAP investment to rush to the latest and greatest thing.  This integration allows an SAP system to access the vast services of AWS without major customization.
 2. Maybe you have a shortage of ABAP developers, but have plenty of Node.js developers.  You could use this integration to make use of other skill sets for business process automation.
 3. Using this process, you could get rid of some of those little pesky SAP add-ins and bolt-on solutions that you bought years ago but are antiquated or unsupported.
-4. No additional SAP or third-party products required.
+4. No additional SAP adpaters or third-party products required.
 
 **As an aside:  In my research for this solution, I found plenty of people who deeply understood SAP platforms and there were tons of people who knew the AWS world, but it was extremely frustrating that noone seemed to be "bilingual" in both worlds.   This is the sole mission of the AWS Practice at Applexus--to grow a community that can maximize the value at the intersection of the SAP world and the AWS world!**
+
+This documentation is aimed at people who are familiar with both SAP and AWS, and I am leaving out some of the very detailed steps as you can find those elsewhere.  For example, I'm not going to show you how to configure outbound IDOCs for master data distribution.  But, if you know how to do that already, the screens and descriptions will make sense.
 
 ## Objectives
 - Use standard SAP IDOC functionality using config only--no ABAP code, user exits, BADI's, smoke and mirrors, etc.
@@ -19,10 +22,15 @@ I like this integration for a few reasons.
 
 ## The Design
 Traditionally, you use middleware (SAP PI, WebMethods, BizTalk, etc.) to integrate with an ERP system to provide that layer of abstraction.  That is a smart thing to do but sometimes, middleware is overkill for the scenario, or maybe too costly of an investment.  Maybe you don't have the skillset readily available, or maybe you need an integration *this afternoon*.
+
 I want to demonstrate a method with which you can send messages, IDOCs in this case, to the AWS platform without the need of middleware.  You loose some of the flexiblity and ease of use without middleware, but you can do everything you might need.  This design uses AWS API Gateway as an entry point and serves as a layer of abstraction in itself--allowing for minor message mapping and reshaping.  We also employ Lambda to catch the IDOC as it comes in, and once its in Lambda, you can do just about anything.  For this scenario, we are just going to be converting the message to JSON and dropping it in an S3 bucket.
+
 I'm using API Gateway as oppsoed to directly integrating into specific AWS REST API's because of my first Objective above--use only standard config in the SAP system.  Using standard config and no customization, we don't have any control over the output of the message from SAP.  It comes as it comes, in XML format without the option to add any header params or adjust the body.  Since most of the AWS REST API's require special query strings or header contents, this makes them unavailable to us.  Instead, we can use the API Gateway to take in the form and shape it how we want.
+
 The API Gateway can also serve as a proxy to virtually every other AWS service.  I had the idea of employing a "fan out" style architecture and Lamdba is a good first-stop for our message.
+
 As docuemnted here, this isn't nesesarily a production-quality configuration.  We are using SSL connections, but I've omited much of the IAM setup and lock-down that we should do in such a scenario because those steps are well documented elsewhere.   I wanted to focus on the specific parts that I hadn't seen documented elsewhere to enable this solution.
+
 There are a few variations and extentions that I plan on doing, but will publish those later--including an acknowledgement message back to SAP upon processing of the IDOC and maybe a few more endpoints like Redshift, SES or SQS.  Also, some sort of more user-friendly mapping framework would probably be interesting--SAP's IDOC fields are cryptic and require someone with SAP technical knowledge to make sense of them.
 
 ## The Steps
