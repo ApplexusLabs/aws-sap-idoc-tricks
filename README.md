@@ -27,6 +27,8 @@ I want to demonstrate a method with which you can send messages, IDOCs in this c
 
 For this scenario, we are just going to be converting the message to JSON and dropping it in an S3 bucket. This scenario can have some business value--you can point AWS EMR or QuickSight at the JSON files on S3 to do some reporting or data mining aginst the raw data. Add in some lifecycle rules in S3 and you can transition off to Glacier as a sort of minimalist IDOC archive.
 
+![diagram.png](./img/diagram.png)
+
 I'm using API Gateway as opposed to directly integrating into specific AWS REST API's because of my first Objective above--use only standard config in the SAP system.  Using standard config and no customization, we don't have any control over the output of the message from SAP.  It comes as it comes, in XML format without the option to add any header params or adjust the body.  Since most of the AWS REST API's require specific form values or header contents, this makes them unavailable to us.  Instead, we can use the API Gateway to take in the natural XML form and shape it how we want.  The API Gateway can also serve as a proxy to virtually every other AWS service.
 
 As docuemnted here, this isn't nesesarily a production-quality configuration.  We are using SSL connections, but I've omited much of the IAM setup and lock-down that we would do in a more produtionized scenario, but those parts are pretty well documented already.   I wanted to focus on the specific parts that I hadn't seen documented elsewhere to enable this solution.
