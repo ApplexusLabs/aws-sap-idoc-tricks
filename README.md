@@ -6,10 +6,11 @@ What I will show you here is how to connect SAP's IDOC interface with various AW
 
 I like this integration for a few reasons.   
 1. Not many companies can just ditch their existing SAP investment to rush to the latest and greatest thing.  This integration allows an SAP system to access the vast services of AWS without major customization.
-2.   
+2. Maybe you have a shortage of ABAP developers, but have plenty of Node.js developers.  You could use this integration to make use of other skill sets for business process automation.
+3. Using this process, you could get rid of some of those little pesky SAP add-ins and bolt-on solutions that you bought years ago but are antiquated or unsupported.
+4. No additional SAP or third-party products required.
 
-**As an aside:  In my research for this solution, I found plenty of people who deeply understood SAP's perspective on SSL and there were tons of people who knew the AWS world, but it was extremely frustrating that noone seemed to be "bilingual" in both worlds.   This is the sole mission of the AWS Practice at Applexus--to grow a community that can maximize the value at the intersection of the SAP world and the AWS world!**
-
+**As an aside:  In my research for this solution, I found plenty of people who deeply understood SAP platforms and there were tons of people who knew the AWS world, but it was extremely frustrating that noone seemed to be "bilingual" in both worlds.   This is the sole mission of the AWS Practice at Applexus--to grow a community that can maximize the value at the intersection of the SAP world and the AWS world!**
 
 ## Objectives
 - Use standard SAP IDOC functionality using config only--no ABAP code, user exits, BADI's, smoke and mirrors, etc.
@@ -98,3 +99,5 @@ exports.handler = function (event, context, callback) {
 
 ## 6. Tying it all together
 And here we are.  Using WE19, I sent some messages out of SAP, and in about 2 seconds later, they show up in our S3 bucket as JSON files.
+
+As I said, I have a few more scenarios in mind that I'll publish later.   If you'd like to try some POC's or an integration between SAP and AWS, please reach out and I'd be happy to help.  This is what we do for a living...mine the intersection of SAP and AWS for valuable new capabilities!
