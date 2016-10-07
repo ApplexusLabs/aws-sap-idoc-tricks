@@ -56,6 +56,10 @@ However, because API Gateway uses CloudFront as its backend, this does introduce
 
 ![apiGW1.png](./img/apiGW1.png)
 
+![apiGW2.png](./img/apiGW2.png)
+
+![apiGW3.png](./img/apiGW3.png)
+
 ## 2. Setup SSL trust for AWS API Gateway
 
 Out of the box, SAP comes with a few SSL certificates which allow the server to connect to a limited collection of hosts via HTTPS.  As luck would have it, the SSL certificates that SAP ships with don't include those used by the AWS API endpoints.  So, we have to create a SSL Trust and import those certs.
