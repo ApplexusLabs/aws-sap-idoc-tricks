@@ -1,0 +1,1 @@
+Scott Pletcher from [Applexus](http://www.applexus.com) wrote about [integrating SAP's IDOC interface directly with AWS API Gateway and AWS Lambda](https://github.com/ApplexusLabs/aws-sap-idoc-tricks)
