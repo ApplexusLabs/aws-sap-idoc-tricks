@@ -1,6 +1,6 @@
 # Integrating SAP's IDOC Interface into AWS API Gateway and AWS Lambda
 
-Now, there's a saying that goes "you can't teach an old dog new tricks", and in the world of Enterprise Applicaiton Integrations, the lowly IDOC is certainly an Old Dog.  For decades, SAP's Intermediate Document or IDOC has been a mainstay of messaging integrations patterns.  It's durable, simple, widely supported and proven.  The IDOC processing framework on SAP is some of the oldest and most mature code in the entire application.
+There's a saying that goes "You can't teach an old dog new tricks", and in the world of Enterprise Applicaiton Integrations, the lowly IDOC is certainly an Old Dog.  For decades, SAP's Intermediate Document or IDOC has been a mainstay of messaging integrations patterns.  It's durable, simple, widely supported and proven.  The IDOC processing framework on SAP NEtweaver platforms is some of the oldest and most mature code in the entire application.
 
 What I will show you here is how to connect SAP's IDOC interface with various AWS services to perhaps get some new tricks out of the "Old Dog".
 
@@ -8,10 +8,10 @@ I like this integration for a few reasons:
 
 1. Not many companies can just ditch their existing SAP investment to rush to the latest and greatest thing.  This integration allows an SAP system to access the vast services of AWS without major customization.
 2. Maybe you have a shortage of ABAP developers, but have plenty of Node.js developers.  You could use this integration to make use of other skill sets for business process automation.
-3. Using this process, you could get rid of some of those little pesky SAP add-ins and bolt-on solutions that you bought years ago but are antiquated or unsupported.
+3. Using this process, you could get rid your SAP system of some of those little pesky proprietary add-ins and bolt-on solutions that you've collected over the years and the original vendor has been bought up several times over.
 4. No additional SAP adpaters or third-party products required.
 
-**As an aside:  In my research for this solution, I found plenty of people who deeply understood SAP platforms and there were tons of people who knew the AWS world, but it was extremely frustrating that noone seemed to be "bilingual" in both worlds.   This is the sole mission of the AWS Practice at Applexus--to grow a community that can maximize the value at the intersection of the SAP world and the AWS world!**
+**As an aside:  In my research for this solution, I found plenty of people who deeply understood SAP platforms and there were tons of people who knew the AWS world, but it was extremely frustrating that noone seemed to be "bilingual" in both worlds.  This is the sole mission of the AWS Practice at [Applexus](http://www.applexus.com)--to grow a community that can maximize the value at the intersection of the SAP world and the AWS world!**
 
 This documentation is aimed at people who are familiar with both SAP and AWS, and I am leaving out some of the very detailed steps as you can find those elsewhere.  For example, I'm not going to show you how to configure outbound IDOCs for master data distribution.  But, if you know how to do that already, the screens and descriptions will make sense.
 
