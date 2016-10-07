@@ -1,0 +1,24 @@
+{
+  "name": "aws-sap-idoc-tricks",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ApplexusLabsPrivate/aws-sap-idoc-tricks.git"
+  },
+  "dependencies": {
+    "xml2js":"latest",
+    "aws-sdk": "latest",
+    "node-uuid": "latest"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ApplexusLabsPrivate/aws-sap-idoc-tricks/issues"
+  },
+  "homepage": "https://github.com/ApplexusLabsPrivate/aws-sap-idoc-tricks#readme"
+}
