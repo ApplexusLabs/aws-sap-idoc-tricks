@@ -144,11 +144,19 @@ From here on out on the SAP side, its pretty standard RFC Destination and IDOC o
 
 ![createRFC1.png](./img/createRFC1.png)
 
+Be sure to use port 443 for HTTPS.  We also include our SID in the URL path.
+
 ![createRFC2.png](./img/createRFC2.png)
+
+On the `Logon & Security` tab, we set SSL as active and select the proper client certificate repo.
 
 ![createRFC3.png](./img/createRFC3.png)
 
+If you now test the RFC, you should get something like this...same message we get in the browser.
+
 ![testRFC1.png](./img/testRFC1.png)
+
+If there's something wrong or missing from your SSL config, you'll get something like this.   If you didn't configure SNI, then you get something that looks much more scary.
 
 ![testRFC2.png](./img/testRFC2.png)
 
@@ -157,7 +165,7 @@ Again, this is standard SAP integration configuration.  As we're using the stand
 
 ![logSystem.png](./img/logSystem.png)
 
-![logSystem2.png](./img/logSystem2.png)
+Create a port in `WE21` under the XML-HTTP branch.  Just leave the defaults for Content Type and SOAP protocol.  If you want to play around with SOAP, please know that the XML-HTTP connector wants a certain response back from the SOAP call.
 
 ![we21](./img/we21.png)
 
