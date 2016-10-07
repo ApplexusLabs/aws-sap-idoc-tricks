@@ -10,14 +10,14 @@ var parseString = new xml2js.Parser({ explicitArray: false }).parseString;
 exports.handler = function (event, context, callback) {
 
     var xmlString = new Buffer(event.body, 'base64').toString();
-    parseString(xmlString, function (err, result) {
+    parseString(xmlString, function (err, resultParse) {
         var s3Params = {
             Bucket: event.bucket,
             Key: event.sid + '/' + uuid.v1() + '.json',
-            Body: JSON.stringify(result)
+            Body: JSON.stringify(resultParse)
         };
-        s3.putObject(s3Params, function (err, result) {
-            callback(err, result);
+        s3.putObject(s3Params, function (err, resultS3) {
+            callback(err, resultS3);
         });
     });
 };
