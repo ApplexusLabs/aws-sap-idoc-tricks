@@ -71,7 +71,7 @@ The Lambda code is quite simple and in the repo.  I use an XML to JSON parser an
 
 Because we're using some extra modules, we zip it up and upload to Lambda.  (Plenty of tutorials out there on creating packages to deploy to Lambda)
 
-`
+```javascript
 'use strict';
 
 var AWS = require('aws-sdk');
@@ -95,7 +95,7 @@ exports.handler = function (event, context, callback) {
         });
     });
 };
-`
+```
 
 ## 6. Tying it all together
 And here we are.  Using WE19, I sent some messages out of SAP, and in about 2 seconds later, they show up in our S3 bucket as JSON files.
