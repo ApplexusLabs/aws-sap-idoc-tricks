@@ -8,7 +8,7 @@ I like this integration for a few reasons:
 
 1. Not many companies can just ditch their existing SAP investment to rush to the latest and greatest thing.  This integration allows an SAP system to access the vast services of AWS without major customization.
 2. Maybe you have a shortage of ABAP developers, but have plenty of Node.js developers.  You could use this integration to make use of other skill sets for business process automation.
-3. Using this process, you could get rid your SAP system of some of those little pesky proprietary add-ins and bolt-on solutions that you've collected over the years and the original vendor has been bought up several times over.
+3. Using this process, you could potentially rid your SAP system of some of those little pesky proprietary add-ins and bolt-on solutions that you've collected over the years where the original "guy in a garage" vendor has since went under or the company was bought up several times over and left for dead.
 4. No additional SAP adpaters or third-party products required.
 
 **As an aside:  In my research for this solution, I found plenty of people who deeply understood SAP platforms and there were tons of people who knew the AWS world, but it was extremely frustrating that noone seemed to be "bilingual" in both worlds.  This is the sole mission of the AWS Practice at [Applexus](http://www.applexus.com)--to grow a community that can maximize the value at the intersection of the SAP world and the AWS world!**
