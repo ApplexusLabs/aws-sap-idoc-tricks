@@ -1,6 +1,6 @@
 # Integrating SAP's IDOC Interface into AWS API Gateway and AWS Lambda
 
-There's a saying that goes "You can't teach an old dog new tricks", and in the world of Enterprise Applicaiton Integrations, the lowly IDOC is certainly an Old Dog.  For decades, SAP's Intermediate Document or IDOC has been a mainstay of messaging integrations patterns.  It's durable, simple, widely supported and proven.  The IDOC processing framework on SAP NEtweaver platforms is some of the oldest and most mature code in the entire application.
+There's a saying that goes "You can't teach an old dog new tricks", and in the world of Enterprise Applicaiton Integrations, the lowly IDOC is certainly an Old Dog.  For decades, SAP's Intermediate Document or IDOC has been a mainstay of messaging integrations patterns.  It's durable, simple, widely supported and proven.  The IDOC processing framework on SAP Netweaver platforms is some of the oldest and most mature code in the entire application.
 
 What I will show you here is how to connect SAP's IDOC interface with various AWS services to perhaps get some new tricks out of the "Old Dog".
 
