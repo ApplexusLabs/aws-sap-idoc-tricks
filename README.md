@@ -80,7 +80,7 @@ exports.handler = function (event, context, callback) {
 
 In my first experiments, I tried to spool IDOCs straight to AWS SQS.  This worked ok, but I ran into a limitation.  I found in testing that SAP will connect to an HTTP endpoint and spool a whole batch of IDOCs rather than sending the messages one by one.
 
-This is actually a good design in that I really wouldn't want to create and close a connection for each and every message...rather I'd like to batch those messages kind of like a pooled connection.  And this exactly what the default behavior is of SAP's HTTP-XML RFC destination.
+This is actually a good design in that I really wouldn't want to create and close a connection for each and every message...rather I'd like to batch those messages kind of like a pooled connection.  And that is exactly what the default behavior is of SAP's HTTP-XML RFC destination.
 
 But this creates a problem in that AWS SQS only supports a maximum message size of 256K.  I was reaching that maximum after only a couple MATMAS05 IDOCs and SQS was truncating the rest of the XML stream.  Additionally, because I want to use the standard HTTP XML stream format out of SAP as-is, I don't have much flexibility in configuring headers, content-type or inserting query string params.  What we need is a layer of abstraction where we can map that default message to pretty much anything that we'd need to make any AWS API call.  AWS API Gateway can do that!  It can proxy for just about every AWS service as well as being able to hand off to AWS Lambda for unlimited possiblities.
 
