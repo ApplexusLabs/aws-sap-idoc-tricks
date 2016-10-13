@@ -43,7 +43,6 @@ There are a few variations and extentions that I plan on doing, but will publish
 4. Configure outbound SAP RFC destination 
 5. Configure outbound IDOC for RFC destination
 6. Tying it all together
-7. Extra Credit:  Implement a response of ALEAUD IDOC back into SAP
 
 ## 1. Create the Lamdba routine to process IDOC
 The Lambda code is quite simple and in the repo.  I use an XML to JSON parser and a UUID module to generate unique names.   In a way, this is kind of like Kinesis Firehose functionality.  You could also use Kinesis Firehose as an alternative from the API Gateway, then trigger subsequent processes from there.  The options are limitless.
@@ -190,7 +189,3 @@ And here we are.  Using WE19, I sent some messages out of SAP, and in about 2 se
 I have a few more scenarios in mind that I'll publish later.   If you'd like to try some POC's or an integration between SAP and AWS, please reach out and I'd be happy to help.  This is what we do for a living...we mine the intersection of SAP and AWS for valuable new capabilities!
 
 Have fun!
-
-## 7. Extra credit: Send ALEAUD IDOC back into SAP
-
-_In Process_
